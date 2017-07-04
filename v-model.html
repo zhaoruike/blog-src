@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+<input type="text" v-model="age"/>
+
+<div v-text="age"></div>
+</body>
+<script src="libs/jquery-1.12.4.min.js"></script>
+<script>
+  function createData() {
+    Object.defineProperty(this, "age", {
+      get: function () {
+        return age
+      },
+      set: function (value) {
+        age = value;
+        $('input').each(function (index, item) {
+          if ($(item).attr('v-model') === 'age') {
+            $(item).val(value)
+          }
+        })
+        $('div').each(function (index, item) {
+          if ($(item).attr('v-text') === 'age') {
+            $(item).text(value)
+          }
+        })
+      }
+    });
+  }
+  var data = new createData();
+  $('input').each(function(index,item){
+    if ($(item).attr('v-model') === 'age') {
+      item.oninput=function(){
+        data.age=$(item).val()
+      }
+    }
+  })
+  data.age = 3;
+</script>
+</html>
